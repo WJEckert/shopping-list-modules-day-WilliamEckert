@@ -16,7 +16,7 @@ function findById(id){
 }
 
 
- export default  store
+ export default store
 
 
  
