@@ -1,8 +1,18 @@
-import item from "./item.js";
-import store from './store.js'
-
-const generateItemElement = function (item) {
+const store = {
+    items: [
+      { id: cuid(), name: 'apples', checked: false },
+      { id: cuid(), name: 'oranges', checked: false },
+      { id: cuid(), name: 'milk', checked: true },
+      { id: cuid(), name: 'bread', checked: false }
+    ],
+    hideCheckedItems: false
+  };
+  
+  const generateItemElement = function (item) {
     let itemTitle = `<span class="shopping-item shopping-item__checked">${item.name}</span>`;
+    // Added a form here to allow the user to edit 
+    // the shopping item if the checked property
+    // on our item is set to false
     if (!item.checked) {
       itemTitle = `
         <form class="js-edit-item">
@@ -43,15 +53,7 @@ const generateItemElement = function (item) {
   };
   
   const addItemToShoppingList = function (itemName) {
-    //store.items.push({ id: cuid(), name: itemName, checked: false });
-    try {
-        item.validateName(itemName);
-        // create a new item if name is valid
-        store.items.push(item.create(itemName));
-      } catch(error) {
-        console.log(`Cannot add item: ${error.message}`);
-      }
-
+    store.items.push({ id: cuid(), name: itemName, checked: false });
   };
   
   const handleNewItemSubmit = function () {
@@ -127,6 +129,11 @@ const generateItemElement = function (item) {
     });
   };
   
+  /**
+   * This function handles the submission of 
+   * the new '.js-edit-item' form added within 
+   * our 'generateItemElement' function.
+   */
   const handleEditShoppingItemSubmit = function () {
     $('.js-shopping-list').on('submit', '.js-edit-item', event => {
       event.preventDefault();
@@ -137,16 +144,15 @@ const generateItemElement = function (item) {
     });
   };
   
-  const bindEventListeners = function () {
+  const handleShoppingList = function () {
+    render();
     handleNewItemSubmit();
     handleItemCheckClicked();
     handleDeleteItemClicked();
+    // calling our new edit function
     handleEditShoppingItemSubmit();
     handleToggleFilterClick();
   };
-  // This object contains the only exposed methods from this module:
-  export default {
-    render,
-    bindEventListeners
-  };
   
+  // when the page loads, call `handleShoppingList`
+  $(handleShoppingList);
