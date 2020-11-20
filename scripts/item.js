@@ -1,5 +1,5 @@
 function validateName(name){
-    if (name === undefined || name === ""){
+    if ( name === ""){
         throw new TypeError("Name must not be blank")
     }
 }
@@ -14,3 +14,5 @@ export default{
     validateName,
     create
 }
+
+//name === undefined ||
